@@ -11,12 +11,10 @@
     <ItemGroup>
       <PackageReference Include="AudioSwitcher.AudioApi.CoreAudio" Version="4.0.0-alpha5" />
       <PackageReference Include="MaterialDesignThemes" Version="5.2.2-ci998" />
+      <PackageReference Include="System.Drawing.Common" Version="9.0.6" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Services\" />
-      <Folder Include="Utils\" />
-      <Folder Include="ViewModels\" />
       <Folder Include="Views\" />
     </ItemGroup>
 

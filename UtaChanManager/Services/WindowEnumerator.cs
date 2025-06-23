@@ -58,9 +58,10 @@ public static class WindowEnumerator
                 if (IgnoredProcesses.Contains(process.ProcessName)) return true;
                 windows.Add(new WindowInfo
                 {
+                    Id = process.Id,
                     Key = hWnd.ToString(),
                     Handle = hWnd,
-                    Title = title+$" ({process.ProcessName})",
+                    Title = title+$" ({process.ProcessName} - {process.Id})",
                     ProcessName = process.ProcessName,
                     Icon = GetIconForWindowInfo(process, hWnd),
                     IsActive = hWnd == GetActiveWindowHandle()

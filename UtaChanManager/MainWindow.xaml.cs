@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using UtaChanManager.Services;
 using UtaChanManager.Utils;
 using UtaChanManager.ViewModels;
 
@@ -36,6 +37,7 @@ public partial class MainWindow : Window
 
     protected override void OnClosed(EventArgs e)
     {
+        _ = AudioManager.UnMuteAllAsync();
         base.OnClosed(e);
         ConfigManager.Save(_vm.SelectedPriorities.ToList());
     }

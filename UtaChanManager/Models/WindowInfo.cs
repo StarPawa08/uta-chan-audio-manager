@@ -5,11 +5,11 @@ namespace UtaChanManager.Models;
 
 public class WindowInfo : INotifyPropertyChanged
 {
+    public int Id { get; init; } = 0;
     public IntPtr Handle { get; set; }
     public string Title { get; init; }
     public string ProcessName { get; set; }
     public BitmapSource? Icon { get; init; }
-    
     public string Key { get; init; }
     
     private bool _isSelected;

@@ -10,6 +10,7 @@ public class WindowSelectionVm
 {
     private readonly DispatcherTimer _activeWindowMonitorTimer = new();
     private IntPtr _lastActiveHandle = IntPtr.Zero;
+    private WindowInfo? _lastActiveWindow;
 
     public WindowSelectionVm()
     {
@@ -22,6 +23,7 @@ public class WindowSelectionVm
     {
         var currentHandle = WindowEnumerator.GetActiveWindowHandle();
         if (currentHandle == _lastActiveHandle) return;
+        ConfigManager.Save(SelectedPriorities.ToList());
         _lastActiveHandle = currentHandle;
         Refresh();
     }
@@ -44,6 +46,7 @@ public class WindowSelectionVm
     {
         Windows.Clear();
         var loadedConfig = ConfigManager.Load();
+        var priorityWindowSelected = false;
         foreach (var windowInfo in WindowEnumerator.GetOpenedWindows().DistinctBy(w => w.Title))
         {
             if (loadedConfig.Contains(windowInfo.Key) || SelectedPriorities.Contains(windowInfo.Key))
@@ -51,6 +54,17 @@ public class WindowSelectionVm
                 windowInfo.IsSelected = true;
             }
             Windows.Add(windowInfo);
+            if (!windowInfo.IsActive) continue;
+            _lastActiveWindow = windowInfo;
+            if (windowInfo.IsSelected)
+            {
+                priorityWindowSelected = true;
+                _ = AudioManager.MuteAllExceptAsync(windowInfo.Id);
+            }
+        }
+        if (!priorityWindowSelected)
+        {
+            _ = AudioManager.UnMuteAllAsync();
         }
     }
 }
